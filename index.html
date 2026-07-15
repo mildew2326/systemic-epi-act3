@@ -3,24 +3,28 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Systemic Epi — Act 3: Disease Path → MMPs</title>
+<title>Systemic Epi — Act 3: Disease Path → MMPs (Bright)</title>
 <style>
   :root {
-    --bg: #070b12;
-    --ink: #f3f6fb;
-    --muted: #9aa8bc;
-    --ember: #ff6a3d;
-    --ember-soft: rgba(255,106,61,.14);
-    --gold: #e0c27a;
-    --teal: #3db8a0;
-    --teal-soft: rgba(61,184,160,.12);
-    --line: rgba(255,255,255,.08);
-    --dim: rgba(243,246,251,.35);
+    --bg: #f4f7fb;
+    --bg2: #ffffff;
+    --ink: #10233f;
+    --muted: #5b6b82;
+    --line: #d7e0ec;
+    --navy: #143a66;
+    --blue: #1f6feb;
+    --blue-soft: #e8f1ff;
+    --teal: #0f9d8a;
+    --teal-soft: #e6faf6;
+    --coral: #e85d4c;
+    --coral-soft: #ffefec;
+    --gold: #c98512;
+    --gold-soft: #fff6e5;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body {
     height: 100%;
-    background: #03050a;
+    background: #dfe7f2;
     color: var(--ink);
     font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
     overflow: hidden;
@@ -31,239 +35,251 @@
     transform-origin: center center;
     position: relative;
     background: var(--bg);
-    box-shadow: 0 30px 80px rgba(0,0,0,.55);
+    box-shadow: 0 24px 70px rgba(16,35,63,.18);
     overflow: hidden;
   }
   .slide {
     position: absolute; inset: 0;
     display: none;
     flex-direction: column;
-    padding: 80px 100px 72px;
+    padding: 78px 96px 68px;
     background:
-      radial-gradient(1000px 560px at 85% -10%, rgba(255,106,61,.09), transparent 55%),
-      radial-gradient(900px 500px at 0% 100%, rgba(61,184,160,.06), transparent 50%),
-      linear-gradient(180deg, #0a1019, #070b12 60%, #06090f);
+      radial-gradient(900px 480px at 100% 0%, rgba(31,111,235,.10), transparent 55%),
+      radial-gradient(800px 420px at 0% 100%, rgba(15,157,138,.08), transparent 50%),
+      linear-gradient(180deg, #f8fbff, #f1f5fb 55%, #eef3f9);
   }
   .slide.active { display: flex; }
   .kicker {
-    color: var(--gold);
-    letter-spacing: .16em;
+    color: var(--blue);
+    letter-spacing: .14em;
     text-transform: uppercase;
     font-size: 15px;
-    font-weight: 700;
-    margin-bottom: 18px;
+    font-weight: 800;
+    margin-bottom: 16px;
   }
   .live-tag {
     display: inline-block;
-    border: 1px solid rgba(61,184,160,.45);
-    color: var(--teal);
+    background: var(--teal-soft);
+    border: 1px solid #9ee0d5;
+    color: #0b7a6b;
     padding: 7px 12px;
     border-radius: 999px;
     font-size: 13px;
-    letter-spacing: .14em;
+    letter-spacing: .12em;
     text-transform: uppercase;
-    font-weight: 700;
-    margin-bottom: 18px;
+    font-weight: 800;
+    margin-bottom: 16px;
     width: fit-content;
   }
   h1 {
-    font-size: 64px;
-    line-height: 1.06;
-    font-weight: 650;
+    font-size: 62px;
+    line-height: 1.05;
+    font-weight: 750;
     letter-spacing: -0.03em;
     max-width: 16ch;
+    color: var(--navy);
   }
   h2 {
-    font-size: 48px;
+    font-size: 46px;
     line-height: 1.1;
-    font-weight: 650;
+    font-weight: 750;
     letter-spacing: -0.03em;
     max-width: 20ch;
+    color: var(--navy);
   }
   .sub {
-    margin-top: 20px;
-    font-size: 26px;
+    margin-top: 18px;
+    font-size: 25px;
     line-height: 1.4;
     color: var(--muted);
-    max-width: 32ch;
+    max-width: 34ch;
   }
   .line {
-    margin-top: 18px;
-    font-size: 34px;
+    margin-top: 16px;
+    font-size: 32px;
     line-height: 1.3;
-    color: #dce5f2;
-    max-width: 24ch;
-    font-weight: 550;
+    color: #243b5a;
+    max-width: 26ch;
+    font-weight: 600;
   }
-  .ember { color: var(--ember); }
-  .gold { color: var(--gold); }
+  .accent { color: var(--coral); }
+  .blue { color: var(--blue); }
   .teal { color: var(--teal); }
   .bar {
-    width: 72px; height: 4px;
-    background: var(--ember);
-    margin: 22px 0 0;
+    width: 76px; height: 5px;
+    background: linear-gradient(90deg, var(--blue), var(--teal));
+    margin: 20px 0 0;
+    border-radius: 99px;
   }
   .footer {
     margin-top: auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-top: 22px;
+    padding-top: 20px;
     border-top: 1px solid var(--line);
-    color: #7f8b9c;
+    color: #7a879b;
     font-size: 14px;
-    letter-spacing: .04em;
+    letter-spacing: .03em;
   }
   .path {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 14px;
-    margin-top: 36px;
+    margin-top: 34px;
   }
   .path .step {
     border: 1px solid var(--line);
-    border-radius: 16px;
-    padding: 22px 18px;
-    background: rgba(255,255,255,.02);
+    border-radius: 18px;
+    padding: 20px 16px;
+    background: var(--bg2);
     min-height: 150px;
+    box-shadow: 0 8px 24px rgba(16,35,63,.04);
   }
   .path .step.on {
-    border-color: rgba(255,106,61,.4);
-    background: var(--ember-soft);
+    border-color: #9dc0ff;
+    background: var(--blue-soft);
+    box-shadow: 0 10px 28px rgba(31,111,235,.10);
   }
   .path .step .n {
     font-size: 12px;
-    letter-spacing: .14em;
+    letter-spacing: .12em;
     text-transform: uppercase;
-    color: var(--gold);
-    font-weight: 700;
-    margin-bottom: 12px;
+    color: var(--blue);
+    font-weight: 800;
+    margin-bottom: 10px;
   }
   .path .step p {
-    font-size: 22px;
+    font-size: 21px;
     line-height: 1.3;
-    color: #d7e0ec;
+    color: #243b5a;
   }
-  .path .step.dim p, .path .step.dim .n { opacity: .35; }
+  .path .step.dim { opacity: .42; }
   .grid2 {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 18px;
-    margin-top: 28px;
+    gap: 16px;
+    margin-top: 26px;
   }
   .grid3 {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
-    margin-top: 28px;
+    gap: 14px;
+    margin-top: 26px;
   }
   .card {
     border: 1px solid var(--line);
     border-radius: 18px;
-    padding: 24px;
-    background: rgba(255,255,255,.025);
+    padding: 22px;
+    background: var(--bg2);
+    box-shadow: 0 8px 24px rgba(16,35,63,.04);
   }
   .card h3 {
-    font-size: 22px;
-    margin-bottom: 10px;
-    color: var(--gold);
+    font-size: 21px;
+    margin-bottom: 8px;
+    color: var(--navy);
   }
   .card p {
-    font-size: 22px;
+    font-size: 21px;
     line-height: 1.35;
-    color: #c9d4e3;
+    color: var(--muted);
   }
   .card.hot {
-    border-color: rgba(255,106,61,.35);
-    background: var(--ember-soft);
+    border-color: #f3b3aa;
+    background: var(--coral-soft);
   }
   .card.cool {
-    border-color: rgba(61,184,160,.3);
+    border-color: #9ee0d5;
     background: var(--teal-soft);
   }
+  .card.blueish {
+    border-color: #9dc0ff;
+    background: var(--blue-soft);
+  }
   .big {
-    font-size: 46px;
+    font-size: 44px;
     line-height: 1.15;
-    font-weight: 650;
+    font-weight: 750;
     letter-spacing: -0.02em;
     max-width: 18ch;
+    color: var(--navy);
   }
   .whisper {
-    margin-top: 22px;
-    font-size: 22px;
+    margin-top: 18px;
+    font-size: 21px;
     color: var(--muted);
-    max-width: 36ch;
+    max-width: 38ch;
   }
   .compare {
     display: grid;
     grid-template-columns: 1fr auto 1fr;
-    gap: 18px;
+    gap: 16px;
     align-items: stretch;
-    margin-top: 34px;
+    margin-top: 30px;
   }
   .compare .arrow {
     align-self: center;
-    font-size: 40px;
-    color: var(--ember);
-    font-weight: 700;
+    font-size: 38px;
+    color: var(--blue);
+    font-weight: 800;
   }
-  .pillrow { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 28px; }
+  .pillrow { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
   .pill {
-    border: 1px solid rgba(224,194,122,.35);
-    color: #f0e4c0;
+    border: 1px solid #b7cdf2;
+    background: #fff;
+    color: var(--navy);
     border-radius: 999px;
     padding: 10px 16px;
-    font-size: 18px;
+    font-size: 17px;
+    font-weight: 650;
   }
   .guard {
-    margin-top: 18px;
-    font-size: 16px;
-    color: #6f7d90;
-    max-width: 50ch;
+    margin-top: 16px;
+    font-size: 15px;
+    color: #7a879b;
+    max-width: 52ch;
+  }
+  .section-chip {
+    position: absolute; top: 26px; right: 96px;
+    font-size: 13px; letter-spacing: .1em; text-transform: uppercase;
+    color: #8a97aa; font-weight: 700;
   }
   .nav {
     position: fixed; right: 16px; bottom: 16px; z-index: 30;
     display: flex; gap: 8px; align-items: center;
-    background: rgba(7,11,18,.92);
+    background: rgba(255,255,255,.95);
     border: 1px solid var(--line);
     border-radius: 999px;
     padding: 8px 12px;
+    box-shadow: 0 8px 24px rgba(16,35,63,.12);
   }
   .nav button {
-    appearance: none; border: 0; background: #172033; color: var(--ink);
+    appearance: none; border: 0; background: var(--navy); color: #fff;
     width: 40px; height: 40px; border-radius: 999px; cursor: pointer; font-size: 18px;
   }
-  .nav .count { min-width: 78px; text-align: center; color: var(--muted); font-size: 13px; font-variant-numeric: tabular-nums; }
-  .section-chip {
-    position: absolute; top: 28px; right: 100px;
-    font-size: 13px; letter-spacing: .12em; text-transform: uppercase;
-    color: #7f8b9c;
-  }
+  .nav .count { min-width: 78px; text-align: center; color: var(--muted); font-size: 13px; font-variant-numeric: tabular-nums; font-weight: 700; }
 </style>
 </head>
 <body>
 <div class="stage"><div class="frame" id="frame">
 
-<!-- 1 -->
 <section class="slide active">
-  <div class="section-chip">Act 3 · 1/26</div>
+  <div class="section-chip">Act 3 · 1/26 · Bright</div>
   <div class="kicker">Bridge</div>
   <h1>Correlation is not the missing piece.</h1>
   <div class="bar"></div>
   <p class="sub">Most of you already know periodontitis associates with systemic disease.</p>
-  <div class="footer"><span>Disease-first path</span><span>1 / 26</span></div>
+  <div class="footer"><span>Disease-first path · bright clinical palette</span><span>1 / 26</span></div>
 </section>
 
-<!-- 2 -->
 <section class="slide">
   <div class="section-chip">Act 3 · 2/26</div>
   <div class="kicker">Bridge</div>
-  <h1>The missing piece is the <span class="ember">path</span>.</h1>
+  <h1>The missing piece is the <span class="accent">path</span>.</h1>
   <p class="line">What does chronic inflammation actually <em>do</em> inside cells?</p>
   <div class="footer"><span>From association → mechanism</span><span>2 / 26</span></div>
 </section>
 
-<!-- 3 -->
 <section class="slide">
   <div class="section-chip">Act 3 · 3/26</div>
   <div class="kicker">Thesis</div>
@@ -273,7 +289,6 @@
   <div class="footer"><span>Gene-expression pivot</span><span>3 / 26</span></div>
 </section>
 
-<!-- 4 -->
 <section class="slide">
   <div class="section-chip">Act 3 · 4/26</div>
   <div class="kicker">Master path · build 1</div>
@@ -287,7 +302,6 @@
   <div class="footer"><span>Layered build</span><span>4 / 26</span></div>
 </section>
 
-<!-- 5 -->
 <section class="slide">
   <div class="section-chip">Act 3 · 5/26</div>
   <div class="kicker">Master path · build 2</div>
@@ -301,7 +315,6 @@
   <div class="footer"><span>Network — not one cytokine monopoly</span><span>5 / 26</span></div>
 </section>
 
-<!-- 6 -->
 <section class="slide">
   <div class="section-chip">Act 3 · 6/26</div>
   <div class="kicker">Master path · build 3</div>
@@ -309,13 +322,12 @@
   <div class="path">
     <div class="step on"><div class="n">01</div><p>Non-resolving inflammatory signal</p></div>
     <div class="step on"><div class="n">02</div><p>Cascades fire repeatedly</p></div>
-    <div class="step on"><div class="n">03</div><p><span class="ember">JAK → STAT3</span> (and related circuits) move programs into the nucleus</p></div>
+    <div class="step on"><div class="n">03</div><p><span class="blue">JAK → STAT3</span> (and related circuits) move programs into the nucleus</p></div>
     <div class="step dim"><div class="n">04</div><p>Gene expression shifts</p></div>
   </div>
   <div class="footer"><span>One major circuit — not the only circuit</span><span>6 / 26</span></div>
 </section>
 
-<!-- 7 -->
 <section class="slide">
   <div class="section-chip">Act 3 · 7/26</div>
   <div class="kicker">Master path · build 4</div>
@@ -330,16 +342,14 @@
   <div class="footer"><span>Programming, not just pain/swelling</span><span>7 / 26</span></div>
 </section>
 
-<!-- 8 -->
 <section class="slide">
   <div class="section-chip">Act 3 · 8/26</div>
   <div class="kicker">Master path</div>
-  <h1>Same system.<br>Different organs.<br><span class="ember">Different diseases.</span></h1>
-  <p class="sub">Watch one path land in places you already treat around every week.</p>
+  <h1>Same system.<br>Different organs.<br><span class="accent">Different diseases.</span></h1>
+  <p class="sub">Watch one path land in places you already see every week.</p>
   <div class="footer"><span>Gallery setup</span><span>8 / 26</span></div>
 </section>
 
-<!-- 9 -->
 <section class="slide">
   <div class="section-chip">Act 3 · 9/26</div>
   <div class="kicker">Disease gallery</div>
@@ -347,15 +357,15 @@
   <p class="line">Shared chronic inflammatory programming — expressed differently by tissue.</p>
   <div class="pillrow">
     <span class="pill">Diabetes</span>
+    <span class="pill">Atherosclerosis</span>
     <span class="pill">Blood pressure</span>
     <span class="pill">Stroke risk biology</span>
     <span class="pill">Cancer niche</span>
     <span class="pill">Brain barrier</span>
   </div>
-  <div class="footer"><span>Contribution framing still holds at disease labels</span><span>9 / 26</span></div>
+  <div class="footer"><span>Atherosclerosis flagged for deeper expansion next</span><span>9 / 26</span></div>
 </section>
 
-<!-- 10 -->
 <section class="slide">
   <div class="section-chip">Act 3 · 10/26</div>
   <div class="kicker">Diabetes</div>
@@ -365,7 +375,6 @@
   <div class="footer"><span>Lead clinical example</span><span>10 / 26</span></div>
 </section>
 
-<!-- 11 -->
 <section class="slide">
   <div class="section-chip">Act 3 · 11/26</div>
   <div class="kicker">Diabetes · mechanism</div>
@@ -375,16 +384,15 @@
       <h3>What shifts</h3>
       <p>Inflammatory signaling alters how effectively insulin-related machinery works on and inside cells.</p>
     </div>
-    <div class="card">
+    <div class="card blueish">
       <h3>What you get</h3>
       <p>Poorer response to insulin. Weaker glucose handling. Inflammation-associated insulin resistance.</p>
     </div>
   </div>
-  <p class="guard">Tissue-dependent biology (e.g., liver and adipose pathways differ). Not “IL-6 alone = diabetes.” Not “perio alone caused diabetes.”</p>
+  <p class="guard">Tissue-dependent biology. Not “IL-6 alone = diabetes.” Not “perio alone caused diabetes.”</p>
   <div class="footer"><span>Mechanism causation inside the inflammatory path</span><span>11 / 26</span></div>
 </section>
 
-<!-- 12 -->
 <section class="slide">
   <div class="section-chip">Act 3 · 12/26</div>
   <div class="kicker">Blood pressure</div>
@@ -399,32 +407,29 @@
       <p>Less effective vasorelaxant signaling. Endothelium loses flexibility.</p>
     </div>
   </div>
-  <p class="line" style="margin-top:28px;">Net tendency: <span class="ember">higher blood pressure physiology</span>.</p>
+  <p class="line" style="margin-top:24px;">Net tendency: <span class="accent">higher blood pressure physiology</span>.</p>
   <div class="footer"><span>Endothelial inflammatory tone</span><span>12 / 26</span></div>
 </section>
 
-<!-- 13 -->
 <section class="slide">
   <div class="section-chip">Act 3 · 13/26</div>
-  <div class="kicker">Vessels · stroke neighborhood</div>
-  <h1>The pipe system tightens.</h1>
-  <p class="line">Same vascular biology. Higher stakes downstream.</p>
-  <p class="sub">Stroke risk lives in an inflamed vascular neighborhood — residual inflammatory risk, endothelial stress, unstable terrain.</p>
-  <p class="guard">Shared pathway correlation / contribution — not “the mouth solely causes stroke.”</p>
-  <div class="footer"><span>BP + cerebrovascular bridge</span><span>13 / 26</span></div>
+  <div class="kicker">Vessels · atherosclerosis neighborhood</div>
+  <h1>The pipe system tightens — and can rupture.</h1>
+  <p class="line">Atherosclerosis is the main stage. Stroke biology often plays on that stage.</p>
+  <p class="sub">Inflamed plaque biology + matrix remodeling (including MMPs) can soften / destabilize lesions — raising embolic and ischemic risk.</p>
+  <p class="guard">Placeholder emphasis for next research pass: atherosclerosis pathways + MMP role in plaque vulnerability. Contribution framing, not sole causation.</p>
+  <div class="footer"><span>BP + athero + stroke bridge (to expand)</span><span>13 / 26</span></div>
 </section>
 
-<!-- 14 -->
 <section class="slide">
   <div class="section-chip">Act 3 · 14/26</div>
   <div class="kicker">Cancer microenvironment</div>
   <h1>Wrong question.</h1>
-  <p class="line" style="text-decoration: line-through; color:#7f8b9c; max-width: 20ch;">“Did perio start the cancer?”</p>
-  <p class="line" style="margin-top:28px;">Right question: <span class="ember">“What environment helps cancer thrive?”</span></p>
+  <p class="line" style="text-decoration: line-through; color:#9aa8bc; max-width: 20ch;">“Did perio start the cancer?”</p>
+  <p class="line" style="margin-top:24px;">Right question: <span class="accent">“What environment helps cancer thrive?”</span></p>
   <div class="footer"><span>Pre-empt pushback</span><span>14 / 26</span></div>
 </section>
 
-<!-- 15 -->
 <section class="slide">
   <div class="section-chip">Act 3 · 15/26</div>
   <div class="kicker">Cancer niche · favors</div>
@@ -437,7 +442,6 @@
   <div class="footer"><span>Progression biology, not origin mythology</span><span>15 / 26</span></div>
 </section>
 
-<!-- 16 -->
 <section class="slide">
   <div class="section-chip">Act 3 · 16/26</div>
   <div class="kicker">Cancer niche · feedback</div>
@@ -447,7 +451,6 @@
   <div class="footer"><span>Self-reinforcing microenvironment</span><span>16 / 26</span></div>
 </section>
 
-<!-- 17 -->
 <section class="slide">
   <div class="section-chip">Act 3 · 17/26</div>
   <div class="kicker">Brain barrier</div>
@@ -456,21 +459,19 @@
   <div class="footer"><span>Careful module — precision over fear</span><span>17 / 26</span></div>
 </section>
 
-<!-- 18 -->
 <section class="slide">
   <div class="section-chip">Act 3 · 18/26</div>
   <div class="kicker">Brain barrier · junctions</div>
   <h2>Chronic inflammation stresses the wall.</h2>
   <p class="line">Junction biology weakens. The border becomes less selective.</p>
   <p class="guard">Mechanistic correlation path — not a claim that perio diagnoses Alzheimer’s.</p>
-  <div class="footer"><span>Junction protein / barrier integrity programs</span><span>18 / 26</span></div>
+  <div class="footer"><span>Junction / barrier integrity programs</span><span>18 / 26</span></div>
 </section>
 
-<!-- 19 -->
 <section class="slide">
   <div class="section-chip">Act 3 · 19/26</div>
   <div class="kicker">Brain barrier · MMP cameo</div>
-  <h2><span class="ember">MMP-9</span> helps open the gate.</h2>
+  <h2><span class="accent">MMP-9</span> helps open the gate.</h2>
   <div class="grid2">
     <div class="card">
       <h3>Barrier matrix</h3>
@@ -485,26 +486,23 @@
   <div class="footer"><span>Contribution / pathway language only</span><span>19 / 26</span></div>
 </section>
 
-<!-- 20 -->
 <section class="slide">
   <div class="section-chip">Act 3 · 20/26</div>
   <div class="live-tag">Live · room</div>
   <p class="big">Different diseases.<br>One question:</p>
-  <p class="line ember" style="margin-top:28px; font-size:42px;">What keeps the program on?</p>
+  <p class="line accent" style="margin-top:24px; font-size:40px;">What keeps the program on?</p>
   <p class="whisper">Hold 5–8 seconds. Let them answer silently or out loud.</p>
   <div class="footer"><span>Engagement beat</span><span>20 / 26</span></div>
 </section>
 
-<!-- 21 -->
 <section class="slide">
   <div class="section-chip">Act 3 · 21/26</div>
   <div class="kicker">Transition</div>
-  <h1>Now look at the <span class="ember">blades</span> the program deploys.</h1>
+  <h1>Now look at the <span class="accent">blades</span> the program deploys.</h1>
   <p class="sub">Matrix metalloproteinases — the cutter family upregulated when inflammation won’t stand down.</p>
   <div class="footer"><span>Diseases first → effectors second</span><span>21 / 26</span></div>
 </section>
 
-<!-- 22 -->
 <section class="slide">
   <div class="section-chip">Act 3 · 22/26</div>
   <div class="kicker">MMP family</div>
@@ -520,13 +518,12 @@
   <div class="footer"><span>Kill the misconception early</span><span>22 / 26</span></div>
 </section>
 
-<!-- 23 -->
 <section class="slide">
   <div class="section-chip">Act 3 · 23/26</div>
   <div class="kicker">Upregulation</div>
   <h2>Chronic inflammation turns the cutters up.</h2>
   <div class="compare">
-    <div class="card">
+    <div class="card blueish">
       <h3>Stuck-on signal</h3>
       <p>Cytokine networks + nuclear programs stay active.</p>
     </div>
@@ -536,11 +533,9 @@
       <p>MMP programs deploy harder and longer. More matrix remodeling. More collateral damage.</p>
     </div>
   </div>
-  <p class="whisper">Same non-resolving story — now with blades.</p>
   <div class="footer"><span>Link disease programming → enzyme output</span><span>23 / 26</span></div>
 </section>
 
-<!-- 24 -->
 <section class="slide">
   <div class="section-chip">Act 3 · 24/26</div>
   <div class="kicker">MMP-8 vs MMP-9</div>
@@ -548,18 +543,16 @@
   <div class="grid2">
     <div class="card cool">
       <h3>MMP-8</h3>
-      <p>Neutrophil collagenase. Cuts <strong style="color:#fff;">type I collagen</strong>. Central to periodontal soft-tissue matrix destruction. Best operational oral activity story.</p>
+      <p>Neutrophil collagenase. Cuts <strong style="color:var(--navy);">type I collagen</strong>. Central to periodontal soft-tissue matrix destruction. Best operational oral activity story.</p>
     </div>
     <div class="card hot">
       <h3>MMP-9</h3>
-      <p>Gelatinase / barrier biology. Common in perio too — and key in <strong style="color:#fff;">BBB permeability</strong> narrative.</p>
+      <p>Gelatinase / barrier & plaque-matrix biology. Common in perio too — and key in BBB / vascular remodeling narratives.</p>
     </div>
   </div>
-  <p class="guard">Both can rise in periodontal inflammation. They are not interchangeable tests.</p>
   <div class="footer"><span>Family literacy</span><span>24 / 26</span></div>
 </section>
 
-<!-- 25 -->
 <section class="slide">
   <div class="section-chip">Act 3 · 25/26</div>
   <div class="kicker">Why MMP-8 for the mouth</div>
@@ -582,59 +575,57 @@
   <div class="footer"><span>Pre-empt false-positive thinking</span><span>25 / 26</span></div>
 </section>
 
-<!-- 26 -->
 <section class="slide">
   <div class="section-chip">Act 3 · 26/26</div>
   <div class="kicker">Local endpoint + load</div>
   <h1>The hose is on.<br>The blades are out.</h1>
-  <div class="grid2" style="margin-top:28px;">
+  <div class="grid2" style="margin-top:24px;">
     <div class="card hot">
       <h3>In the mouth</h3>
       <p>Host programs cut type I collagen. Attachment loss is not “bugs only.” It’s effector biology.</p>
     </div>
-    <div class="card">
+    <div class="card blueish">
       <h3>In the body</h3>
       <p>Same non-resolving inflammatory load fills the cup — pushing gene programs that favor systemic disease biology.</p>
     </div>
   </div>
-  <p class="line" style="margin-top:26px; max-width: 28ch;">Next: measure activity carefully — and keep contribution language honest.</p>
-  <div class="footer"><span>Exit → Act 4 spotlight / Act 5 action</span><span>26 / 26</span></div>
+  <p class="line" style="margin-top:22px; max-width: 30ch;">Next: deepen atherosclerosis accuracy — then measure activity carefully.</p>
+  <div class="footer"><span>Exit → research pass + Act 4/5</span><span>26 / 26</span></div>
 </section>
 
 </div></div>
 
 <div class="nav">
-  <button id="prev" title="Previous">←</button>
+  <button id="prev">←</button>
   <div class="count" id="count">1 / 26</div>
-  <button id="next" title="Next">→</button>
+  <button id="next">→</button>
 </div>
 
 <script>
-  const slides = [...document.querySelectorAll('.slide')];
-  const countEl = document.getElementById('count');
-  const frame = document.getElementById('frame');
-  let i = Number(localStorage.getItem('act3_disease_idx') || 0);
-  if (Number.isNaN(i) || i < 0 || i >= slides.length) i = 0;
-
-  function show(n) {
-    i = Math.max(0, Math.min(slides.length - 1, n));
-    slides.forEach((s, idx) => s.classList.toggle('active', idx === i));
-    countEl.textContent = `${i + 1} / ${slides.length}`;
-    localStorage.setItem('act3_disease_idx', String(i));
+  const slides=[...document.querySelectorAll('.slide')];
+  const countEl=document.getElementById('count');
+  const frame=document.getElementById('frame');
+  let i=Number(localStorage.getItem('act3_bright_idx')||0);
+  if(Number.isNaN(i)||i<0||i>=slides.length)i=0;
+  function show(n){
+    i=Math.max(0,Math.min(slides.length-1,n));
+    slides.forEach((s,idx)=>s.classList.toggle('active',idx===i));
+    countEl.textContent=`${i+1} / ${slides.length}`;
+    localStorage.setItem('act3_bright_idx',String(i));
   }
-  function fit() {
-    const s = Math.min(window.innerWidth / 1920, window.innerHeight / 1080) * 0.96;
-    frame.style.transform = `scale(${s})`;
+  function fit(){
+    const s=Math.min(window.innerWidth/1920,window.innerHeight/1080)*0.96;
+    frame.style.transform=`scale(${s})`;
   }
-  document.getElementById('prev').onclick = () => show(i - 1);
-  document.getElementById('next').onclick = () => show(i + 1);
-  window.addEventListener('keydown', (e) => {
-    if (['ArrowRight', 'PageDown', ' '].includes(e.key)) { e.preventDefault(); show(i + 1); }
-    if (['ArrowLeft', 'PageUp'].includes(e.key)) { e.preventDefault(); show(i - 1); }
-    if (e.key === 'Home') show(0);
-    if (e.key === 'End') show(slides.length - 1);
+  document.getElementById('prev').onclick=()=>show(i-1);
+  document.getElementById('next').onclick=()=>show(i+1);
+  window.addEventListener('keydown',e=>{
+    if(['ArrowRight','PageDown',' '].includes(e.key)){e.preventDefault();show(i+1);}
+    if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();show(i-1);}
+    if(e.key==='Home')show(0);
+    if(e.key==='End')show(slides.length-1);
   });
-  window.addEventListener('resize', fit);
+  window.addEventListener('resize',fit);
   show(i); fit();
 </script>
 </body>
