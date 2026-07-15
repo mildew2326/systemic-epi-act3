@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Systemic Epi — Act 3 Bold Color Lab</title>
+<style>
+  :root {
+    --bg: #1f7aee;
+    --bg2: #2b86f5;
+    --ink: #ffffff;
+    --muted: rgba(255,255,255,.86);
+    --line: rgba(255,255,255,.22);
+    --primary: #ffffff;
+    --primary-soft: rgba(255,255,255,.14);
+    --secondary: #d9fff4;
+    --secondary-soft: rgba(217,255,244,.16);
+    --accent: #ffe08a;
+    --accent-soft: rgba(255,224,138,.18);
+    --card: rgba(255,255,255,.12);
+    --card-strong: rgba(255,255,255,.18);
+    --nav-bg: rgba(20,40,80,.35);
+    --nav-btn: rgba(255,255,255,.18);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    height: 100%;
+    background: #d7e4f5;
+    color: var(--ink);
+    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    overflow: hidden;
+  }
+  .stage { width: 100vw; height: 100vh; display: grid; place-items: center; }
+  .frame {
+    width: 1920px; height: 1080px;
+    transform-origin: center center;
+    position: relative;
+    background: var(--bg);
+    box-shadow: 0 24px 70px rgba(20,40,80,.25);
+    overflow: hidden;
+  }
+  .slide {
+    position: absolute; inset: 0;
+    display: none;
+    flex-direction: column;
+    padding: 78px 96px 68px;
+    background:
+      radial-gradient(900px 520px at 100% 0%, rgba(255,255,255,.16), transparent 55%),
+      radial-gradient(820px 460px at 0% 100%, rgba(0,0,0,.08), transparent 50%),
+      linear-gradient(165deg, var(--bg2), var(--bg) 55%, color-mix(in srgb, var(--bg) 85%, black));
+  }
+  .slide.active { display: flex; }
+  .kicker {
+    color: var(--accent);
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    font-size: 15px;
+    font-weight: 800;
+    margin-bottom: 16px;
+  }
+  .live-tag {
+    display: inline-block;
+    background: var(--secondary-soft);
+    border: 1px solid rgba(255,255,255,.28);
+    color: var(--secondary);
+    padding: 7px 12px;
+    border-radius: 999px;
+    font-size: 13px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    font-weight: 800;
+    margin-bottom: 16px;
+    width: fit-content;
+  }
+  h1 {
+    font-size: 60px;
+    line-height: 1.06;
+    font-weight: 780;
+    letter-spacing: -0.03em;
+    max-width: 16ch;
+    color: var(--ink);
+    text-shadow: 0 2px 18px rgba(0,0,0,.12);
+  }
+  h2 {
+    font-size: 44px;
+    line-height: 1.1;
+    font-weight: 780;
+    letter-spacing: -0.03em;
+    max-width: 20ch;
+    color: var(--ink);
+  }
+  .sub {
+    margin-top: 18px;
+    font-size: 25px;
+    line-height: 1.4;
+    color: var(--muted);
+    max-width: 34ch;
+  }
+  .line {
+    margin-top: 16px;
+    font-size: 32px;
+    line-height: 1.3;
+    color: var(--muted);
+    max-width: 26ch;
+    font-weight: 650;
+  }
+  .accent { color: var(--accent); }
+  .bar {
+    width: 76px; height: 5px;
+    background: linear-gradient(90deg, #fff, var(--accent));
+    margin: 20px 0 0;
+    border-radius: 99px;
+  }
+  .footer {
+    margin-top: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+    color: rgba(255,255,255,.78);
+    font-size: 14px;
+    letter-spacing: .03em;
+  }
+  .path {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-top: 34px;
+  }
+  .path .step {
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 20px 16px;
+    background: var(--card);
+    min-height: 150px;
+    backdrop-filter: blur(6px);
+  }
+  .path .step.on {
+    border-color: rgba(255,255,255,.42);
+    background: var(--card-strong);
+  }
+  .path .step .n {
+    font-size: 12px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 800;
+    margin-bottom: 10px;
+  }
+  .path .step p {
+    font-size: 21px;
+    line-height: 1.3;
+    color: var(--ink);
+  }
+  .path .step.dim { opacity: .45; }
+  .grid2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 26px;
+  }
+  .grid3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin-top: 26px;
+  }
+  .card {
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 22px;
+    background: var(--card);
+    backdrop-filter: blur(6px);
+  }
+  .card h3 {
+    font-size: 21px;
+    margin-bottom: 8px;
+    color: var(--accent);
+  }
+  .card p {
+    font-size: 21px;
+    line-height: 1.35;
+    color: var(--muted);
+  }
+  .card.hot {
+    border-color: rgba(255,255,255,.35);
+    background: var(--accent-soft);
+  }
+  .card.cool {
+    border-color: rgba(255,255,255,.3);
+    background: var(--secondary-soft);
+  }
+  .card.blueish {
+    border-color: rgba(255,255,255,.3);
+    background: var(--primary-soft);
+  }
+  .big {
+    font-size: 44px;
+    line-height: 1.15;
+    font-weight: 780;
+    letter-spacing: -0.02em;
+    max-width: 18ch;
+  }
+  .whisper {
+    margin-top: 18px;
+    font-size: 21px;
+    color: var(--muted);
+    max-width: 38ch;
+  }
+  .pillrow { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+  .pill {
+    border: 1px solid rgba(255,255,255,.28);
+    background: rgba(255,255,255,.12);
+    color: #fff;
+    border-radius: 999px;
+    padding: 10px 16px;
+    font-size: 17px;
+    font-weight: 700;
+  }
+  .guard {
+    margin-top: 16px;
+    font-size: 15px;
+    color: rgba(255,255,255,.72);
+    max-width: 52ch;
+  }
+  .section-chip {
+    position: absolute; top: 26px; right: 96px;
+    font-size: 13px; letter-spacing: .1em; text-transform: uppercase;
+    color: rgba(255,255,255,.72); font-weight: 700;
+  }
+  .nav {
+    position: fixed; right: 16px; bottom: 16px; z-index: 30;
+    display: flex; gap: 8px; align-items: center;
+    background: var(--nav-bg);
+    border: 1px solid rgba(255,255,255,.22);
+    border-radius: 999px;
+    padding: 8px 12px;
+    backdrop-filter: blur(8px);
+  }
+  .nav button {
+    appearance: none; border: 0; background: var(--nav-btn); color: #fff;
+    width: 40px; height: 40px; border-radius: 999px; cursor: pointer; font-size: 18px;
+  }
+  .nav .count { min-width: 78px; text-align: center; color: #fff; font-size: 13px; font-variant-numeric: tabular-nums; font-weight: 700; }
+
+  .tweaks {
+    position: fixed; left: 16px; bottom: 16px; z-index: 40;
+    width: min(380px, calc(100vw - 32px));
+    max-height: min(70vh, 560px);
+    overflow: auto;
+    background: rgba(255,255,255,.96);
+    border: 1px solid #d5deea;
+    border-radius: 18px;
+    padding: 14px;
+    color: #17324f;
+    box-shadow: 0 16px 40px rgba(20,40,80,.18);
+  }
+  .tweaks h3 {
+    font-size: 13px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: #5b6b82;
+    margin-bottom: 8px;
+  }
+  .tweaks p {
+    font-size: 12px;
+    line-height: 1.4;
+    color: #5b6b82;
+    margin-bottom: 10px;
+  }
+  .swatches { display: grid; gap: 8px; }
+  .swatch {
+    appearance: none;
+    border: 1px solid #d5deea;
+    border-radius: 12px;
+    padding: 10px 12px;
+    text-align: left;
+    cursor: pointer;
+    color: #17324f;
+    background: #fff;
+    font-size: 13px;
+    line-height: 1.3;
+  }
+  .swatch strong { display: block; font-size: 14px; margin-bottom: 2px; }
+  .swatch.active {
+    border-color: #1f7aee;
+    box-shadow: inset 0 0 0 1px rgba(31,122,238,.35);
+  }
+  .dots { display: flex; gap: 6px; margin-top: 6px; }
+  .dots span {
+    width: 14px; height: 14px; border-radius: 50%;
+    border: 1px solid rgba(0,0,0,.12);
+  }
+</style>
+</head>
+<body>
+<div class="stage"><div class="frame" id="frame">
+
+<section class="slide active">
+  <div class="section-chip">Bold color lab · 1/10</div>
+  <div class="kicker">Middle ground</div>
+  <h1>Bright bold color.<br>White lettering.<br>Softer contrast.</h1>
+  <div class="bar"></div>
+  <p class="sub">Use the left panel to switch palettes. Backgrounds are colorful mid-bright fields — not black, not pure white page glare.</p>
+  <div class="footer"><span>White type on bold color fields</span><span>1 / 10</span></div>
+</section>
+
+<section class="slide">
+  <div class="section-chip">2/10</div>
+  <div class="kicker">Bridge</div>
+  <h1>Correlation is not the missing piece.</h1>
+  <p class="line">The missing piece is the <span class="accent">path</span>.</p>
+  <div class="footer"><span>Association → mechanism</span><span>2 / 10</span></div>
+</section>
+
+<section class="slide">
+  <div class="section-chip">3/10</div>
+  <div class="kicker">Thesis</div>
+  <h1>Chronic inflammation changes what genes stay on.</h1>
+  <p class="sub">Not only swelling. Programming.</p>
+  <div class="footer"><span>Gene-expression pivot</span><span>3 / 10</span></div>
+</section>
+
+<section class="slide">
+  <div class="section-chip">4/10</div>
+  <div class="kicker">Master path</div>
+  <h2>Into the nucleus.</h2>
+  <div class="path">
+    <div class="step on"><div class="n">01</div><p>Signal stays on</p></div>
+    <div class="step on"><div class="n">02</div><p>Cascades repeat</p></div>
+    <div class="step on"><div class="n">03</div><p>JAK → STAT3 to nucleus</p></div>
+    <div class="step dim"><div class="n">04</div><p>Gene expression shifts</p></div>
+  </div>
+  <div class="footer"><span>Build / card readability test</span><span>4 / 10</span></div>
+</section>
+
+<section class="slide">
+  <div class="section-chip">5/10</div>
+  <div class="kicker">Diabetes</div>
+  <h1>Insulin is knocking.</h1>
+  <p class="line">The door still exists — but it works worse.</p>
+  <div class="footer"><span>Hero statement test</span><span>5 / 10</span></div>
+</section>
+
+<section class="slide">
+  <div class="section-chip">6/10</div>
+  <div class="kicker">Cards</div>
+  <h2>Gene programs change insulin response.</h2>
+  <div class="grid2">
+    <div class="card hot"><h3>What shifts</h3><p>Inflammatory signaling alters insulin-related machinery effectiveness.</p></div>
+    <div class="card cool"><h3>What you get</h3><p>Poorer insulin response. Weaker glucose handling.</p></div>
+  </div>
+  <div class="footer"><span>Frosted card contrast on color field</span><span>6 / 10</span></div>
+</section>
+
+<section class="slide">
+  <div class="section-chip">7/10</div>
+  <div class="kicker">Atherosclerosis</div>
+  <h1>The pipe system tightens — and can rupture.</h1>
+  <p class="sub">Atherosclerosis is the main stage. Stroke biology often plays there via plaque remodeling.</p>
+  <div class="footer"><span>Long-line readability</span><span>7 / 10</span></div>
+</section>
+
+<section class="slide">
+  <div class="section-chip">8/10</div>
+  <div class="live-tag">Live · room</div>
+  <p class="big">Different diseases.<br>One question:</p>
+  <p class="line accent" style="margin-top:22px; font-size:38px;">What keeps the program on?</p>
+  <div class="footer"><span>Engagement beat</span><span>8 / 10</span></div>
+</section>
+
+<section class="slide">
+  <div class="section-chip">9/10</div>
+  <div class="kicker">MMP family</div>
+  <h1>There is not only one MMP.</h1>
+  <div class="pillrow">
+    <span class="pill">MMP-8</span>
+    <span class="pill">MMP-9</span>
+    <span class="pill">MMP-2</span>
+    <span class="pill">MMP-13</span>
+  </div>
+  <div class="grid2" style="margin-top:22px;">
+    <div class="card cool"><h3>MMP-8</h3><p>Neutrophil collagenase. Type I collagen. Oral activity story.</p></div>
+    <div class="card hot"><h3>MMP-9</h3><p>Barrier / plaque-matrix biology. BBB + vascular narratives.</p></div>
+  </div>
+  <div class="footer"><span>Family + dual cards</span><span>9 / 10</span></div>
+</section>
+
+<section class="slide">
+  <div class="section-chip">10/10</div>
+  <div class="kicker">Close</div>
+  <h1>The hose is on.<br>The blades are out.</h1>
+  <p class="sub">Pick the palette that still feels easy after 10 slides of white type on bold color.</p>
+  <div class="footer"><span>Fatigue test</span><span>10 / 10</span></div>
+</section>
+
+</div></div>
+
+<div class="tweaks">
+  <h3>Bold color backgrounds</h3>
+  <p>White lettering on mid-bright bold fields. Softer than black/white extremes. Click to switch.</p>
+  <div class="swatches" id="swatches"></div>
+</div>
+
+<div class="nav">
+  <button id="prev">←</button>
+  <div class="count" id="count">1 / 10</div>
+  <button id="next">→</button>
+</div>
+
+<script>
+  const palettes = {
+    oceanBlue: {
+      label: 'Ocean Blue',
+      blurb: 'Confident CE blue. Clean, professional, strong with white type.',
+      vars: {
+        '--bg': '#1f7aee', '--bg2': '#3b8ff5', '--ink': '#ffffff',
+        '--muted': 'rgba(255,255,255,.88)', '--line': 'rgba(255,255,255,.22)',
+        '--primary': '#ffffff', '--primary-soft': 'rgba(255,255,255,.14)',
+        '--secondary': '#d9fff4', '--secondary-soft': 'rgba(217,255,244,.16)',
+        '--accent': '#ffe08a', '--accent-soft': 'rgba(255,224,138,.18)',
+        '--card': 'rgba(255,255,255,.12)', '--card-strong': 'rgba(255,255,255,.18)',
+        '--nav-bg': 'rgba(20,50,110,.30)', '--nav-btn': 'rgba(255,255,255,.18)'
+      },
+      dots: ['#1f7aee', '#ffffff', '#d9fff4', '#ffe08a']
+    },
+    tealBold: {
+      label: 'Teal Bold',
+      blurb: 'Bright clinical teal. Energetic without neon sting.',
+      vars: {
+        '--bg': '#0f9f90', '--bg2': '#18b3a2', '--ink': '#ffffff',
+        '--muted': 'rgba(255,255,255,.88)', '--line': 'rgba(255,255,255,.22)',
+        '--primary': '#ffffff', '--primary-soft': 'rgba(255,255,255,.14)',
+        '--secondary': '#e7fff8', '--secondary-soft': 'rgba(231,255,248,.16)',
+        '--accent': '#ffe29a', '--accent-soft': 'rgba(255,226,154,.18)',
+        '--card': 'rgba(255,255,255,.12)', '--card-strong': 'rgba(255,255,255,.18)',
+        '--nav-bg': 'rgba(10,70,65,.30)', '--nav-btn': 'rgba(255,255,255,.18)'
+      },
+      dots: ['#0f9f90', '#ffffff', '#e7fff8', '#ffe29a']
+    },
+    violetBold: {
+      label: 'Violet Bold',
+      blurb: 'Modern purple field. Distinctive study-club presence.',
+      vars: {
+        '--bg': '#6d4aff', '--bg2': '#7d5fff', '--ink': '#ffffff',
+        '--muted': 'rgba(255,255,255,.88)', '--line': 'rgba(255,255,255,.22)',
+        '--primary': '#ffffff', '--primary-soft': 'rgba(255,255,255,.14)',
+        '--secondary': '#ddfff5', '--secondary-soft': 'rgba(221,255,245,.15)',
+        '--accent': '#ffd479', '--accent-soft': 'rgba(255,212,121,.18)',
+        '--card': 'rgba(255,255,255,.12)', '--card-strong': 'rgba(255,255,255,.18)',
+        '--nav-bg': 'rgba(40,25,100,.30)', '--nav-btn': 'rgba(255,255,255,.18)'
+      },
+      dots: ['#6d4aff', '#ffffff', '#ddfff5', '#ffd479']
+    },
+    coralBold: {
+      label: 'Coral Bold',
+      blurb: 'Warm bold coral/rose. High energy; use if you want heat without black/red darkness.',
+      vars: {
+        '--bg': '#e4574d', '--bg2': '#ef6a5f', '--ink': '#ffffff',
+        '--muted': 'rgba(255,255,255,.90)', '--line': 'rgba(255,255,255,.24)',
+        '--primary': '#ffffff', '--primary-soft': 'rgba(255,255,255,.14)',
+        '--secondary': '#fff0c9', '--secondary-soft': 'rgba(255,240,201,.16)',
+        '--accent': '#fff3a8', '--accent-soft': 'rgba(255,243,168,.18)',
+        '--card': 'rgba(255,255,255,.13)', '--card-strong': 'rgba(255,255,255,.19)',
+        '--nav-bg': 'rgba(110,30,28,.28)', '--nav-btn': 'rgba(255,255,255,.18)'
+      },
+      dots: ['#e4574d', '#ffffff', '#fff0c9', '#fff3a8']
+    },
+    indigoAzure: {
+      label: 'Indigo Azure',
+      blurb: 'Between blue and purple. Soft enough for long talks, still bold.',
+      vars: {
+        '--bg': '#3f63e8', '--bg2': '#5374ee', '--ink': '#ffffff',
+        '--muted': 'rgba(255,255,255,.88)', '--line': 'rgba(255,255,255,.22)',
+        '--primary': '#ffffff', '--primary-soft': 'rgba(255,255,255,.14)',
+        '--secondary': '#d8fff6', '--secondary-soft': 'rgba(216,255,246,.15)',
+        '--accent': '#ffd27a', '--accent-soft': 'rgba(255,210,122,.18)',
+        '--card': 'rgba(255,255,255,.12)', '--card-strong': 'rgba(255,255,255,.18)',
+        '--nav-bg': 'rgba(30,45,120,.30)', '--nav-btn': 'rgba(255,255,255,.18)'
+      },
+      dots: ['#3f63e8', '#ffffff', '#d8fff6', '#ffd27a']
+    },
+    emeraldBold: {
+      label: 'Emerald Bold',
+      blurb: 'Rich green clinical field. Fresh, less corporate-blue.',
+      vars: {
+        '--bg': '#149a62', '--bg2': '#1aab6f', '--ink': '#ffffff',
+        '--muted': 'rgba(255,255,255,.88)', '--line': 'rgba(255,255,255,.22)',
+        '--primary': '#ffffff', '--primary-soft': 'rgba(255,255,255,.14)',
+        '--secondary': '#e9fff5', '--secondary-soft': 'rgba(233,255,245,.16)',
+        '--accent': '#ffe08a', '--accent-soft': 'rgba(255,224,138,.18)',
+        '--card': 'rgba(255,255,255,.12)', '--card-strong': 'rgba(255,255,255,.18)',
+        '--nav-bg': 'rgba(15,70,45,.30)', '--nav-btn': 'rgba(255,255,255,.18)'
+      },
+      dots: ['#149a62', '#ffffff', '#e9fff5', '#ffe08a']
+    }
+  };
+
+  const root = document.documentElement;
+  const swatches = document.getElementById('swatches');
+  let current = localStorage.getItem('act3_bold_palette') || 'oceanBlue';
+
+  function applyPalette(key) {
+    const p = palettes[key];
+    if (!p) return;
+    current = key;
+    Object.entries(p.vars).forEach(([k,v]) => root.style.setProperty(k, v));
+    localStorage.setItem('act3_bold_palette', key);
+    [...swatches.children].forEach(btn => btn.classList.toggle('active', btn.dataset.key === key));
+  }
+
+  Object.entries(palettes).forEach(([key, p]) => {
+    const btn = document.createElement('button');
+    btn.className = 'swatch';
+    btn.dataset.key = key;
+    btn.innerHTML = `<strong>${p.label}</strong>${p.blurb}<div class="dots">${p.dots.map(c=>`<span style="background:${c}"></span>`).join('')}</div>`;
+    btn.onclick = () => applyPalette(key);
+    swatches.appendChild(btn);
+  });
+  applyPalette(current);
+
+  const slides=[...document.querySelectorAll('.slide')];
+  const countEl=document.getElementById('count');
+  const frame=document.getElementById('frame');
+  let i=Number(localStorage.getItem('act3_bold_idx')||0);
+  if(Number.isNaN(i)||i<0||i>=slides.length)i=0;
+  function show(n){
+    i=Math.max(0,Math.min(slides.length-1,n));
+    slides.forEach((s,idx)=>s.classList.toggle('active',idx===i));
+    countEl.textContent=`${i+1} / ${slides.length}`;
+    localStorage.setItem('act3_bold_idx',String(i));
+  }
+  function fit(){
+    const s=Math.min(window.innerWidth/1920,window.innerHeight/1080)*0.92;
+    frame.style.transform=`scale(${s})`;
+  }
+  document.getElementById('prev').onclick=()=>show(i-1);
+  document.getElementById('next').onclick=()=>show(i+1);
+  window.addEventListener('keydown',e=>{
+    if(['ArrowRight','PageDown',' '].includes(e.key)){e.preventDefault();show(i+1);}
+    if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();show(i-1);}
+  });
+  window.addEventListener('resize',fit);
+  show(i); fit();
+</script>
+</body>
+</html>
