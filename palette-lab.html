@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Systemic Epi — Act 3 Palette Lab</title>
+<style>
+  :root {
+    --bg: #121a28;
+    --bg2: #182234;
+    --ink: #eef3fb;
+    --muted: #a7b4c8;
+    --line: rgba(255,255,255,.10);
+    --primary: #4db7ff;
+    --primary-soft: rgba(77,183,255,.14);
+    --secondary: #3ecfB6;
+    --secondary-soft: rgba(62,207,182,.12);
+    --accent: #f0a35e;
+    --accent-soft: rgba(240,163,94,.14);
+    --nav-bg: rgba(12,18,28,.92);
+    --nav-btn: #243247;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    height: 100%;
+    background: #0a0e16;
+    color: var(--ink);
+    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    overflow: hidden;
+  }
+  .stage { width: 100vw; height: 100vh; display: grid; place-items: center; }
+  .frame {
+    width: 1920px; height: 1080px;
+    transform-origin: center center;
+    position: relative;
+    background: var(--bg);
+    box-shadow: 0 28px 80px rgba(0,0,0,.45);
+    overflow: hidden;
+  }
+  .slide {
+    position: absolute; inset: 0;
+    display: none;
+    flex-direction: column;
+    padding: 78px 96px 68px;
+    background:
+      radial-gradient(920px 500px at 100% 0%, var(--primary-soft), transparent 55%),
+      radial-gradient(820px 460px at 0% 100%, var(--secondary-soft), transparent 52%),
+      linear-gradient(180deg, var(--bg2), var(--bg) 60%);
+  }
+  .slide.active { display: flex; }
+  .kicker {
+    color: var(--primary);
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    font-size: 15px;
+    font-weight: 800;
+    margin-bottom: 16px;
+  }
+  .live-tag {
+    display: inline-block;
+    background: var(--secondary-soft);
+    border: 1px solid color-mix(in srgb, var(--secondary) 45%, transparent);
+    color: var(--secondary);
+    padding: 7px 12px;
+    border-radius: 999px;
+    font-size: 13px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    font-weight: 800;
+    margin-bottom: 16px;
+    width: fit-content;
+  }
+  h1 {
+    font-size: 60px;
+    line-height: 1.06;
+    font-weight: 750;
+    letter-spacing: -0.03em;
+    max-width: 16ch;
+  }
+  h2 {
+    font-size: 44px;
+    line-height: 1.1;
+    font-weight: 750;
+    letter-spacing: -0.03em;
+    max-width: 20ch;
+  }
+  .sub {
+    margin-top: 18px;
+    font-size: 25px;
+    line-height: 1.4;
+    color: var(--muted);
+    max-width: 34ch;
+  }
+  .line {
+    margin-top: 16px;
+    font-size: 32px;
+    line-height: 1.3;
+    color: color-mix(in srgb, var(--ink) 88%, var(--muted));
+    max-width: 26ch;
+    font-weight: 600;
+  }
+  .accent { color: var(--accent); }
+  .pri { color: var(--primary); }
+  .sec { color: var(--secondary); }
+  .bar {
+    width: 76px; height: 5px;
+    background: linear-gradient(90deg, var(--primary), var(--secondary));
+    margin: 20px 0 0;
+    border-radius: 99px;
+  }
+  .footer {
+    margin-top: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+    color: color-mix(in srgb, var(--muted) 85%, transparent);
+    font-size: 14px;
+    letter-spacing: .03em;
+  }
+  .path {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-top: 34px;
+  }
+  .path .step {
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 20px 16px;
+    background: color-mix(in srgb, var(--bg2) 80%, black);
+    min-height: 150px;
+  }
+  .path .step.on {
+    border-color: color-mix(in srgb, var(--primary) 50%, transparent);
+    background: var(--primary-soft);
+  }
+  .path .step .n {
+    font-size: 12px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--primary);
+    font-weight: 800;
+    margin-bottom: 10px;
+  }
+  .path .step p {
+    font-size: 21px;
+    line-height: 1.3;
+    color: color-mix(in srgb, var(--ink) 90%, var(--muted));
+  }
+  .path .step.dim { opacity: .4; }
+  .grid2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 26px;
+  }
+  .grid3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    margin-top: 26px;
+  }
+  .card {
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 22px;
+    background: color-mix(in srgb, var(--bg2) 88%, black);
+  }
+  .card h3 {
+    font-size: 21px;
+    margin-bottom: 8px;
+    color: var(--primary);
+  }
+  .card p {
+    font-size: 21px;
+    line-height: 1.35;
+    color: var(--muted);
+  }
+  .card.hot {
+    border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+    background: var(--accent-soft);
+  }
+  .card.cool {
+    border-color: color-mix(in srgb, var(--secondary) 45%, transparent);
+    background: var(--secondary-soft);
+  }
+  .card.blueish {
+    border-color: color-mix(in srgb, var(--primary) 45%, transparent);
+    background: var(--primary-soft);
+  }
+  .big {
+    font-size: 44px;
+    line-height: 1.15;
+    font-weight: 750;
+    letter-spacing: -0.02em;
+    max-width: 18ch;
+  }
+  .whisper {
+    margin-top: 18px;
+    font-size: 21px;
+    color: var(--muted);
+    max-width: 38ch;
+  }
+  .compare {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 16px;
+    align-items: stretch;
+    margin-top: 30px;
+  }
+  .compare .arrow {
+    align-self: center;
+    font-size: 38px;
+    color: var(--primary);
+    font-weight: 800;
+  }
+  .pillrow { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+  .pill {
+    border: 1px solid var(--line);
+    background: color-mix(in srgb, var(--bg2) 70%, black);
+    color: var(--ink);
+    border-radius: 999px;
+    padding: 10px 16px;
+    font-size: 17px;
+    font-weight: 650;
+  }
+  .guard {
+    margin-top: 16px;
+    font-size: 15px;
+    color: color-mix(in srgb, var(--muted) 80%, transparent);
+    max-width: 52ch;
+  }
+  .section-chip {
+    position: absolute; top: 26px; right: 96px;
+    font-size: 13px; letter-spacing: .1em; text-transform: uppercase;
+    color: color-mix(in srgb, var(--muted) 85%, transparent); font-weight: 700;
+  }
+  .nav {
+    position: fixed; right: 16px; bottom: 16px; z-index: 30;
+    display: flex; gap: 8px; align-items: center;
+    background: var(--nav-bg);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 8px 12px;
+  }
+  .nav button {
+    appearance: none; border: 0; background: var(--nav-btn); color: var(--ink);
+    width: 40px; height: 40px; border-radius: 999px; cursor: pointer; font-size: 18px;
+  }
+  .nav .count { min-width: 78px; text-align: center; color: var(--muted); font-size: 13px; font-variant-numeric: tabular-nums; font-weight: 700; }
+
+  /* Palette lab panel */
+  .tweaks {
+    position: fixed; left: 16px; bottom: 16px; z-index: 40;
+    width: min(360px, calc(100vw - 32px));
+    background: rgba(10,14,22,.94);
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: 18px;
+    padding: 14px;
+    color: #e8eef8;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 16px 40px rgba(0,0,0,.35);
+  }
+  .tweaks h3 {
+    font-size: 13px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: #9fb0c8;
+    margin-bottom: 10px;
+  }
+  .tweaks p {
+    font-size: 12px;
+    line-height: 1.4;
+    color: #9fb0c8;
+    margin-bottom: 10px;
+  }
+  .swatches { display: grid; gap: 8px; }
+  .swatch {
+    appearance: none;
+    border: 1px solid rgba(255,255,255,.12);
+    border-radius: 12px;
+    padding: 10px 12px;
+    text-align: left;
+    cursor: pointer;
+    color: #eef3fb;
+    background: #151c2a;
+    font-size: 13px;
+    line-height: 1.3;
+  }
+  .swatch strong { display: block; font-size: 14px; margin-bottom: 2px; }
+  .swatch.active {
+    border-color: #4db7ff;
+    box-shadow: inset 0 0 0 1px rgba(77,183,255,.35);
+  }
+  .dots {
+    display: flex; gap: 6px; margin-top: 6px;
+  }
+  .dots span {
+    width: 14px; height: 14px; border-radius: 50%;
+    border: 1px solid rgba(255,255,255,.25);
+  }
+</style>
+</head>
+<body>
+<div class="stage"><div class="frame" id="frame">
+
+<section class="slide active">
+  <div class="section-chip">Act 3 · Palette lab · 1/12</div>
+  <div class="kicker">Middle ground</div>
+  <h1>Not pitch-black.<br>Not eye-strain white.</h1>
+  <div class="bar"></div>
+  <p class="sub">Use the palette panel (bottom left) to compare schemes. Content is a representative Act 3 sample set.</p>
+  <div class="footer"><span>Goal: engaging, readable, cinematic enough</span><span>1 / 12</span></div>
+</section>
+
+<section class="slide">
+  <div class="section-chip">2/12</div>
+  <div class="kicker">Bridge</div>
+  <h1>Correlation is not the missing piece.</h1>
+  <p class="line">The missing piece is the <span class="accent">path</span>.</p>
+  <div class="footer"><span>Association → mechanism</span><span>2 / 12</span></div>
+</section>
+
+<section class="slide">
+  <div class="section-chip">3/12</div>
+  <div class="kicker">Thesis</div>
+  <h1>Chronic inflammation changes what genes stay on.</h1>
+  <p class="sub">Not only swelling. Programming.</p>
+  <div class="footer"><span>Gene-expression pivot</span><span>3 / 12</span></div>
+</section>
+
+<section class="slide">
+  <div class="section-chip">4/12</div>
+  <div class="kicker">Master path</div>
+  <h2>Into the nucleus.</h2>
+  <div class="path">
+    <div class="step on"><div class="n">01</div><p>Signal stays on</p></div>
+    <div class="step on"><div class="n">02</div><p>Cascades repeat</p></div>
+    <div class="step on"><div class="n">03</div><p><span class="pri">JAK → STAT3</span> to nucleus</p></div>
+    <div class="step dim"><div class="n">04</div><p>Gene expression shifts</p></div>
+  </div>
+  <div class="footer"><span>Progressive build test</span><span>4 / 12</span></div>
+</section>
+
+<section class="slide">
+  <div class="section-chip">5/12</div>
+  <div class="kicker">Diabetes</div>
+  <h1>Insulin is knocking.</h1>
+  <p class="line">The door still exists — but it works worse.</p>
+  <div class="footer"><span>Lead disease example</span><span>5 / 12</span></div>
+</section>
+
+<section class="slide">
+  <div class="section-chip">6/12</div>
+  <div class="kicker">Diabetes · cards</div>
+  <h2>Gene programs change insulin response.</h2>
+  <div class="grid2">
+    <div class="card hot"><h3>What shifts</h3><p>Inflammatory signaling alters insulin-related machinery effectiveness.</p></div>
+    <div class="card blueish"><h3>What you get</h3><p>Poorer insulin response. Weaker glucose handling.</p></div>
+  </div>
+  <div class="footer"><span>Card contrast test</span><span>6 / 12</span></div>
+</section>
+
+<section class="slide">
+  <div class="section-chip">7/12</div>
+  <div class="kicker">Atherosclerosis neighborhood</div>
+  <h1>The pipe system tightens — and can rupture.</h1>
+  <p class="sub">Atherosclerosis is the main stage. Stroke biology often plays on that stage via plaque remodeling.</p>
+  <div class="footer"><span>Priority disease cluster</span><span>7 / 12</span></div>
+</section>
+
+<section class="slide">
+  <div class="section-chip">8/12</div>
+  <div class="kicker">Cancer niche</div>
+  <h2>Chronic inflammation tilts the terrain.</h2>
+  <div class="grid3">
+    <div class="card hot"><h3>Apoptosis ↓</h3><p>Harder to clear damaged cells.</p></div>
+    <div class="card hot"><h3>Angiogenesis ↑</h3><p>Supportive blood supply expands.</p></div>
+    <div class="card hot"><h3>Matrix ↑</h3><p>Barriers soften for invasion.</p></div>
+  </div>
+  <div class="footer"><span>Emphasis color load test</span><span>8 / 12</span></div>
+</section>
+
+<section class="slide">
+  <div class="section-chip">9/12</div>
+  <div class="live-tag">Live · room</div>
+  <p class="big">Different diseases.<br>One question:</p>
+  <p class="line accent" style="margin-top:22px; font-size:38px;">What keeps the program on?</p>
+  <div class="footer"><span>Engagement beat</span><span>9 / 12</span></div>
+</section>
+
+<section class="slide">
+  <div class="section-chip">10/12</div>
+  <div class="kicker">MMP family</div>
+  <h1>There is not only one MMP.</h1>
+  <div class="pillrow">
+    <span class="pill">MMP-8</span>
+    <span class="pill">MMP-9</span>
+    <span class="pill">MMP-2</span>
+    <span class="pill">MMP-13</span>
+  </div>
+  <div class="footer"><span>Pill / family test</span><span>10 / 12</span></div>
+</section>
+
+<section class="slide">
+  <div class="section-chip">11/12</div>
+  <div class="kicker">8 vs 9</div>
+  <h2>Different jobs. Same war.</h2>
+  <div class="grid2">
+    <div class="card cool"><h3>MMP-8</h3><p>Neutrophil collagenase. Type I collagen. Oral activity story.</p></div>
+    <div class="card hot"><h3>MMP-9</h3><p>Barrier / plaque-matrix biology. BBB + vascular remodeling narratives.</p></div>
+  </div>
+  <div class="footer"><span>Dual-accent card test</span><span>11 / 12</span></div>
+</section>
+
+<section class="slide">
+  <div class="section-chip">12/12</div>
+  <div class="kicker">Close sample</div>
+  <h1>The hose is on.<br>The blades are out.</h1>
+  <p class="sub">Pick the palette that stays easy on the eyes at slide 12 after flipping through.</p>
+  <div class="footer"><span>Fatigue test</span><span>12 / 12</span></div>
+</section>
+
+</div></div>
+
+<div class="tweaks" id="tweaks">
+  <h3>Palette lab</h3>
+  <p>Middle-ground dark schemes. Click to apply instantly. Your choice saves in this browser.</p>
+  <div class="swatches" id="swatches"></div>
+</div>
+
+<div class="nav">
+  <button id="prev">←</button>
+  <div class="count" id="count">1 / 12</div>
+  <button id="next">→</button>
+</div>
+
+<script>
+  const palettes = {
+    duskNavy: {
+      label: 'Dusk Navy',
+      blurb: 'Deep blue-gray, sky primary, teal secondary, warm amber accent. Best all-rounder for CE.',
+      vars: {
+        '--bg': '#121a28', '--bg2': '#182234', '--ink': '#eef3fb', '--muted': '#a7b4c8',
+        '--line': 'rgba(255,255,255,.10)',
+        '--primary': '#4db7ff', '--primary-soft': 'rgba(77,183,255,.14)',
+        '--secondary': '#3ecfb6', '--secondary-soft': 'rgba(62,207,182,.12)',
+        '--accent': '#f0a35e', '--accent-soft': 'rgba(240,163,94,.14)',
+        '--nav-bg': 'rgba(12,18,28,.92)', '--nav-btn': '#243247'
+      },
+      dots: ['#121a28', '#4db7ff', '#3ecfb6', '#f0a35e']
+    },
+    slateTeal: {
+      label: 'Slate Teal',
+      blurb: 'Charcoal slate base, mint/teal lead, soft apricot accent. Calm, modern, less “medical blue.”',
+      vars: {
+        '--bg': '#171c22', '--bg2': '#1e252e', '--ink': '#f2f5f8', '--muted': '#a9b3bf',
+        '--line': 'rgba(255,255,255,.10)',
+        '--primary': '#2fd3c1', '--primary-soft': 'rgba(47,211,193,.13)',
+        '--secondary': '#7aa7ff', '--secondary-soft': 'rgba(122,167,255,.12)',
+        '--accent': '#ffb087', '--accent-soft': 'rgba(255,176,135,.13)',
+        '--nav-bg': 'rgba(14,18,24,.94)', '--nav-btn': '#2a3340'
+      },
+      dots: ['#171c22', '#2fd3c1', '#7aa7ff', '#ffb087']
+    },
+    indigoNight: {
+      label: 'Indigo Night',
+      blurb: 'Indigo/violet dusk, periwinkle primary, soft gold accent. More distinctive, still readable.',
+      vars: {
+        '--bg': '#15182b', '--bg2': '#1c2040', '--ink': '#f1f2ff', '--muted': '#b0b6d6',
+        '--line': 'rgba(255,255,255,.11)',
+        '--primary': '#8b9cff', '--primary-soft': 'rgba(139,156,255,.15)',
+        '--secondary': '#5ee0c4', '--secondary-soft': 'rgba(94,224,196,.12)',
+        '--accent': '#e8c27a', '--accent-soft': 'rgba(232,194,122,.14)',
+        '--nav-bg': 'rgba(12,14,28,.94)', '--nav-btn': '#2a2f4d'
+      },
+      dots: ['#15182b', '#8b9cff', '#5ee0c4', '#e8c27a']
+    },
+    copperDusk: {
+      label: 'Copper Dusk',
+      blurb: 'Warm dark (not black), cream text, copper accent, teal support. Least “horror red,” more human.',
+      vars: {
+        '--bg': '#1a1614', '--bg2': '#241f1c', '--ink': '#f7f1ea', '--muted': '#c0b4a8',
+        '--line': 'rgba(255,255,255,.10)',
+        '--primary': '#e0a36b', '--primary-soft': 'rgba(224,163,107,.14)',
+        '--secondary': '#4ec4b0', '--secondary-soft': 'rgba(78,196,176,.12)',
+        '--accent': '#ff7a59', '--accent-soft': 'rgba(255,122,89,.12)',
+        '--nav-bg': 'rgba(18,15,13,.94)', '--nav-btn': '#352e29'
+      },
+      dots: ['#1a1614', '#e0a36b', '#4ec4b0', '#ff7a59']
+    },
+    forestNight: {
+      label: 'Forest Night',
+      blurb: 'Deep green-black clinic feel, emerald primary, soft lime secondary, coral only for alerts.',
+      vars: {
+        '--bg': '#101916', '--bg2': '#16241f', '--ink': '#eef8f3', '--muted': '#a7c0b5',
+        '--line': 'rgba(255,255,255,.10)',
+        '--primary': '#3dd6a5', '--primary-soft': 'rgba(61,214,165,.13)',
+        '--secondary': '#7ec8ff', '--secondary-soft': 'rgba(126,200,255,.12)',
+        '--accent': '#ff8f7a', '--accent-soft': 'rgba(255,143,122,.12)',
+        '--nav-bg': 'rgba(10,16,14,.94)', '--nav-btn': '#24352e'
+      },
+      dots: ['#101916', '#3dd6a5', '#7ec8ff', '#ff8f7a']
+    }
+  };
+
+  const root = document.documentElement;
+  const swatches = document.getElementById('swatches');
+  let current = localStorage.getItem('act3_palette_lab') || 'duskNavy';
+
+  function applyPalette(key) {
+    const p = palettes[key];
+    if (!p) return;
+    current = key;
+    Object.entries(p.vars).forEach(([k,v]) => root.style.setProperty(k, v));
+    localStorage.setItem('act3_palette_lab', key);
+    [...swatches.children].forEach(btn => btn.classList.toggle('active', btn.dataset.key === key));
+  }
+
+  Object.entries(palettes).forEach(([key, p]) => {
+    const btn = document.createElement('button');
+    btn.className = 'swatch';
+    btn.dataset.key = key;
+    btn.innerHTML = `<strong>${p.label}</strong>${p.blurb}<div class="dots">${p.dots.map(c=>`<span style="background:${c}"></span>`).join('')}</div>`;
+    btn.onclick = () => applyPalette(key);
+    swatches.appendChild(btn);
+  });
+  applyPalette(current);
+
+  const slides=[...document.querySelectorAll('.slide')];
+  const countEl=document.getElementById('count');
+  const frame=document.getElementById('frame');
+  let i=Number(localStorage.getItem('act3_lab_idx')||0);
+  if(Number.isNaN(i)||i<0||i>=slides.length)i=0;
+  function show(n){
+    i=Math.max(0,Math.min(slides.length-1,n));
+    slides.forEach((s,idx)=>s.classList.toggle('active',idx===i));
+    countEl.textContent=`${i+1} / ${slides.length}`;
+    localStorage.setItem('act3_lab_idx',String(i));
+  }
+  function fit(){
+    const s=Math.min(window.innerWidth/1920,window.innerHeight/1080)*0.92;
+    frame.style.transform=`scale(${s})`;
+  }
+  document.getElementById('prev').onclick=()=>show(i-1);
+  document.getElementById('next').onclick=()=>show(i+1);
+  window.addEventListener('keydown',e=>{
+    if(['ArrowRight','PageDown',' '].includes(e.key)){e.preventDefault();show(i+1);}
+    if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();show(i-1);}
+  });
+  window.addEventListener('resize',fit);
+  show(i); fit();
+</script>
+</body>
+</html>
